@@ -1,0 +1,118 @@
+{
+  "name": "tavily tool",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# Tavily Tool",
+        "height": 300,
+        "width": 700,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -64,
+        -16
+      ],
+      "typeVersion": 1,
+      "id": "4b5030ba-a92a-4578-8dcd-67d4b4fb9d04",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "query",
+              "type": "any"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -48,
+        96
+      ],
+      "id": "680707e8-e62c-4f99-84d0-e00c3eb107da",
+      "name": "Workflow Input Trigger",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1ae0dd90-d1d0-494b-bd8b-1ef335f0bd8f",
+              "name": "response",
+              "value": "=[Source 1]\nURL: {{ $json.results[0].url }}\nContent: {{ $json.results[0].content }}\n\n[Source 2]\nURL: {{ $json.results[1].url }}\nContent: {{ $json.results[1].content }}\n\n[Source 3]\nURL: {{ $json.results[2].url }}\nContent: {{ $json.results[2].content }}\n\n[Source 4]\nURL: {{ $json.results[3].url }}\nContent: {{ $json.results[3].content }}\n\n[Source 5]\nURL: {{ $json.results[4].url }}\nContent: {{ $json.results[4].content }}\n\n[Source 6]\nURL: {{ $json.results[5].url }}\nContent: {{ $json.results[5].content }}\n[Source 7]\nURL: {{ $json.results[6].url }}\nContent: {{ $json.results[6].content }}\n\n[Source 8]\nURL: {{ $json.results[7].url }}\nContent: {{ $json.results[7].content }}\n\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        96
+      ],
+      "id": "b773c3d3-998f-4b9b-8e96-589a57a01892",
+      "name": "response"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\"api_key\": \"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\",\n\"query\": \"{ trigger.query }\",\n  \"search_depth\": \"basic\",\n  \"include_answer\": true,\n  \"topic\": \"news\",\n  \"include_raw_content\": true,\n  \"max_results\": 8\n}",
+        "options": {}
+      },
+      "id": "e5d842c8-6723-450b-bb96-eabc4b5898ab",
+      "name": "Tavily1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        192,
+        96
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Tavily1": {
+      "main": [
+        [
+          {
+            "node": "response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Input Trigger": {
+      "main": [
+        [
+          {
+            "node": "Tavily1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8476ca7a-f96e-4dfd-8e54-d0ad85ef0753",
+  "meta": {
+    "instanceId": "467ff757d19c364ab304899a2da60363e7d7f6900477fce5b8b2a3f511bb80ff"
+  },
+  "id": "4fzDMT6z5esrZcDQ",
+  "tags": []
+}
